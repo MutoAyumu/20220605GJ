@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     Rigidbody2D rb = default;
     [SerializeField] float jumpPower=1f;
+    [SerializeField] float dashPower = 5f;
     int jcount = 0;
     [SerializeField]string GroundTag = "Ground";
     [SerializeField] int jlimit = 2;
@@ -24,7 +25,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector3(10.0f,rb.velocity.y, 0);
+        rb.velocity = new Vector3(dashPower,rb.velocity.y, 0);
         //if(cjump==true)
         //{ 
         if (jcount <jlimit)
@@ -55,7 +56,6 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag==GroundTag)
         {
             jcount = 0;
-
         }
     }
 
