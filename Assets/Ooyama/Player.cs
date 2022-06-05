@@ -11,6 +11,12 @@ public class Player : MonoBehaviour
     [SerializeField]string GroundTag = "Ground";
     [SerializeField] int jlimit = 2;
     [SerializeField] string EnemyTag = "Enemy";
+    [SerializeField] MapGenerator generator;
+    [SerializeField] string GeneratorTag = "Finish";
+    [SerializeField] int dashPowerController;
+    [SerializeField] UIManager uIManager;
+    [SerializeField] int SpeedupTime = 10;
+    float timer = 0f;
     //bool cJump;
     //Animator an = default;
     
@@ -25,15 +31,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rb.velocity = new Vector3(dashPower,rb.velocity.y, 0);
-        //if(cjump==true)
-        //{ 
+        rb.velocity = new Vector3(dashPower, rb.velocity.y, 0);
+        if(uIManager.Timer>SpeedupTime)
+        {
+            dashPower += dashPowerController;
+            SpeedupTime += SpeedupTime;
+        }    
         if (jcount <jlimit)
         {
             if (Input.GetButtonDown("Jump"))
             {
                 rb.velocity=new Vector3(0,jumpPower,0);
                 jcount += 1;
+            }
+            if (Input.GetButton("Jump"))
+            {
+                timer += Time.deltaTime;
+
             }
         }
         //}
@@ -56,6 +70,10 @@ public class Player : MonoBehaviour
         if(collision.gameObject.tag==GroundTag)
         {
             jcount = 0;
+        }
+        if(collision.gameObject.tag==GeneratorTag)
+        {
+            generator.GenerateStage();
         }
     }
 
