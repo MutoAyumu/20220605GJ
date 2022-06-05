@@ -6,12 +6,14 @@ public class Player : MonoBehaviour
 {
     Rigidbody2D rb = default;
     [SerializeField] float jumpPower=1f;
+    [SerializeField] float dashPower = 5f;
     int jcount = 0;
     [SerializeField]string GroundTag = "Ground";
     [SerializeField] int jlimit = 2;
+    [SerializeField] string EnemyTag = "Enemy";
     //bool cJump;
     //Animator an = default;
-    //bool GO;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -23,32 +25,38 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //rb.velocity = new Vector3(10.0f,rb.velocity.y, 0);
+        rb.velocity = new Vector3(dashPower,rb.velocity.y, 0);
         //if(cjump==true)
         //{ 
         if (jcount <jlimit)
         {
             if (Input.GetButtonDown("Jump"))
             {
-                rb.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+                rb.velocity=new Vector3(0,jumpPower,0);
                 jcount += 1;
             }
         }
         //}
-     
     }
     
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag== GroundTag)
+        /*if(collision.gameObject.tag== GroundTag)
         {
-            //cJump = true;
+            cJump = true;
             jcount=0;
-        }
-        /*if(collision.gameObject.tag=="Enemy")
-        {
-            GO=true;
         }*/
+        if(collision.gameObject.tag== EnemyTag)
+        {
+            GameManager.GameOver();
+        }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.tag==GroundTag)
+        {
+            jcount = 0;
+        }
     }
 
 }
