@@ -5,6 +5,14 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public float Timer
+    {
+        get
+        {
+            return _time; 
+        }
+    }
+
     [SerializeField]
     [Header("リザルト画面のパネル")]
     private GameObject _panel;
