@@ -16,7 +16,10 @@ public class Player : MonoBehaviour
     [SerializeField] int dashPowerController;
     [SerializeField] UIManager uIManager;
     [SerializeField] int SpeedupTime = 10;
+    [SerializeField] float jumpTimelimit = 3f;
     float timer = 0f;
+    bool isfirstjump=false;
+    float subjump = 0f;
     //bool cJump;
     //Animator an = default;
     
@@ -26,6 +29,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         //an=GetComponent<Animator>();
+        subjump = jumpPower;
     }
 
     // Update is called once per frame
@@ -35,19 +39,26 @@ public class Player : MonoBehaviour
         if(uIManager.Timer>SpeedupTime)
         {
             dashPower += dashPowerController;
-            SpeedupTime += SpeedupTime;
+            SpeedupTime+=SpeedupTime;
         }    
         if (jcount <jlimit)
         {
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown("Jump")&&!isfirstjump)
             {
                 rb.velocity=new Vector3(0,jumpPower,0);
                 jcount += 1;
+                isfirstjump = true;
             }
-            if (Input.GetButton("Jump"))
+            if (Input.GetButton("Jump")&&timer<jumpTimelimit)
             {
                 timer += Time.deltaTime;
-
+                rb.velocity = new Vector3(dashPower, jumpPower - timer, 0); 
+            }
+            if(Input.GetButtonUp("Jump"))
+            {
+                timer = 0f;
+                isfirstjump = false;
+                jumpPower = subjump;
             }
         }
         //}
