@@ -537,7 +537,7 @@ MonoBehaviour:
   EnemyTag: Enemy
   generator: {fileID: 1965646361}
   GeneratorTag: Finish
-  dashPowerController: 0
+  dashPowerController: 2
   uIManager: {fileID: 5509865973287042513}
   SpeedupTime: 10
 --- !u!212 &932831951
@@ -1096,7 +1096,7 @@ MonoBehaviour:
   - {fileID: 2503155211768258422, guid: 4f28d9d3e8027eb419bb34391f5d219e, type: 3}
   _width: 18
   _grid: {fileID: 1965646360}
-  _isDebugLog: 0
+  _isDebugLog: 1
 --- !u!4 &1965646362
 Transform:
   m_ObjectHideFlags: 0
