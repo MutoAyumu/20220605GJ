@@ -20,9 +20,12 @@ public class odds : MonoBehaviour
     SpriteRenderer e_sprite = default;
 
 
+    private void Awake()
+    {
+        GameManager.OnStart.AddListener(OnStart);
+    }
 
-    // Start is called before the first frame update
-    void Start()
+    private void OnStart()
     {
         e_rb = GetComponent<Rigidbody2D>();
         e_sprite = GetComponent<SpriteRenderer>();
