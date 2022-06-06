@@ -10,7 +10,8 @@ public class EnemyDestroy : MonoBehaviour
     {
         if(_system)
         {
-            _system.Play();
+            var s = Instantiate(_system);
+            Destroy(s, 3);
         }
 
         Destroy(this.gameObject);
