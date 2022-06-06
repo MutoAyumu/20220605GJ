@@ -27,11 +27,10 @@ public class UIManager : MonoBehaviour
 
     private float _time = 0f;
 
-    private void Start()
+
+    private void Awake()
     {
-        _panel.SetActive(false);
-        GameManager.GameStart();
-        GameManager.OnGameOver.AddListener(GameOver);
+        GameManager.OnStart.AddListener(GameStart);
     }
 
     private void Update()
@@ -39,6 +38,16 @@ public class UIManager : MonoBehaviour
         _time += Time.deltaTime;
         TimeTextUpdate();
         ScoreTextUpdate();
+        if(Input.GetMouseButton(0))
+        {
+            GameManager.GameStart();
+        }
+    }
+
+    private void GameStart()
+    {
+        _panel.SetActive(false);
+        GameManager.OnGameOver.AddListener(GameOver);
     }
 
     /// <summary>
