@@ -15,21 +15,41 @@ public static class GameManager
     /// </summary>
     public static int Score { get; private set; }
 
+    private static bool _canGameStart = false;
+
+    /// <summary>
+    /// ゲーム開始時に呼ばれるUnityEvent
+    /// ゲーム開始時に呼びたい関数を登録することができる
+    /// 使い方　GameManager.OnStart.AddListner(登録したい関数名);
+    /// </summary>
+    public static UnityEvent OnStart = new UnityEvent();
+
     /// <summary>
     /// ゲームオーバー時に呼ばれるUnityEvent
     /// ゲームオーバー時に呼びたい関数を登録することができる
     /// 使い方　GameManager.OnGameOver.AddListener(登録したい関数名);
     /// </summary>
     public static UnityEvent OnGameOver = new UnityEvent();
+    
+    /// <summary>
+    /// ゲーム開始可能にしたり不可能にしたりできる関数
+    /// </summary>
+    /// <param name="flag"></param>
+    public static void CanGameStart(bool flag = true)
+    {
+        _canGameStart = flag;
+    }
 
     /// <summary>
     /// ゲーム開始時に呼ばれる関数
     /// </summary>
     public static void GameStart()
     {
+        if (!_canGameStart) return;
         IsGameOver = false;
         Score = 0;
         OnGameOver?.RemoveAllListeners();
+        OnStart?.Invoke();
     }
 
     /// <summary>
@@ -39,6 +59,7 @@ public static class GameManager
     {
         IsGameOver = true;
         OnGameOver?.Invoke();
+        OnStart?.RemoveAllListeners();
     }
 
     /// <summary>
