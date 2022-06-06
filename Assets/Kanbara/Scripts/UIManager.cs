@@ -26,16 +26,20 @@ public class UIManager : MonoBehaviour
     private Text _scoreText;
 
     private float _time = 0f;
-
+    private bool _isStopCount = false;
 
     private void Awake()
     {
+        _panel.SetActive(false);
         GameManager.OnStart.AddListener(GameStart);
     }
 
     private void Update()
     {
-        _time += Time.deltaTime;
+        if(_isStopCount)
+        {
+            _time += Time.deltaTime;
+        }
         TimeTextUpdate();
         ScoreTextUpdate();
         if(Input.GetMouseButton(0))
@@ -46,7 +50,7 @@ public class UIManager : MonoBehaviour
 
     private void GameStart()
     {
-        _panel.SetActive(false);
+        _isStopCount = true;
         GameManager.OnGameOver.AddListener(GameOver);
     }
 
@@ -69,6 +73,7 @@ public class UIManager : MonoBehaviour
 
     private void GameOver()
     {
+        _isStopCount = false;
         _panel.SetActive(true);
     }
 }
