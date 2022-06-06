@@ -5,10 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     Rigidbody2D rb = default;
-    [SerializeField] float jumpPower=1f;
+    [SerializeField] float jumpPower = 1f;
     [SerializeField] float dashPower = 5f;
     int jcount = 0;
-    [SerializeField]string GroundTag = "Ground";
+    [SerializeField] string GroundTag = "Ground";
     [SerializeField] int jlimit = 2;
     [SerializeField] string EnemyTag = "Enemy";
     [SerializeField] MapGenerator generator;
@@ -17,12 +17,16 @@ public class Player : MonoBehaviour
     [SerializeField] UIManager uIManager;
     [SerializeField] int SpeedupTime = 10;
     [SerializeField] float jumpTimelimit = 3f;
+    [SerializeField] string StarTag = "Star";
+    [SerializeField] float StarTime = 1f;
+    float StartStarTime;
     float timer = 0f;
-    bool isfirstjump=false;
+    bool isfirstjump = false;
     float subjump = 0f;
+    bool isStar = false;
     //bool cJump;
     //Animator an = default;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,34 +40,41 @@ public class Player : MonoBehaviour
     void Update()
     {
         rb.velocity = new Vector3(dashPower, rb.velocity.y, 0);
-        if(uIManager.Timer>SpeedupTime)
+        if (uIManager.Timer > SpeedupTime)
         {
             dashPower += dashPowerController;
-            SpeedupTime+=SpeedupTime;
-        }    
-        if (jcount <jlimit)
+            SpeedupTime += SpeedupTime;
+        }
+        if (jcount < jlimit)
         {
-            if (Input.GetButtonDown("Jump")&&!isfirstjump)
+            if (Input.GetButtonDown("Fire1") && !isfirstjump)
             {
-                rb.velocity=new Vector3(0,jumpPower,0);
+                rb.velocity = new Vector3(0, jumpPower, 0);
                 jcount += 1;
                 isfirstjump = true;
             }
-            if (Input.GetButton("Jump")&&timer<jumpTimelimit)
+            if (Input.GetButton("Fire1") && timer < jumpTimelimit)
             {
                 timer += Time.deltaTime;
-                rb.velocity = new Vector3(dashPower, jumpPower - timer, 0); 
+                rb.velocity = new Vector3(dashPower, jumpPower - timer, 0);
             }
-            if(Input.GetButtonUp("Jump"))
+            if (Input.GetButtonUp("Fire1"))
             {
                 timer = 0f;
                 isfirstjump = false;
                 jumpPower = subjump;
             }
         }
+        if (isStar)
+        {
+            if (StartStarTime + StarTime < uIManager.Timer)
+            {
+                isStar = false;
+            }
+        }
         //}
     }
-    
+
     public void OnCollisionEnter2D(Collision2D collision)
     {
         /*if(collision.gameObject.tag== GroundTag)
@@ -71,21 +82,35 @@ public class Player : MonoBehaviour
             cJump = true;
             jcount=0;
         }*/
-        if(collision.gameObject.tag== EnemyTag)
+        if (collision.gameObject.tag == EnemyTag )
         {
-            GameManager.GameOver();
+            if (isStar)
+            {
+
+            }
+            else
+            {
+                GameManager.GameOver();
+            }
         }
+        
     }
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag==GroundTag)
+        if (collision.gameObject.tag == GroundTag)
         {
             jcount = 0;
         }
-        if(collision.gameObject.tag==GeneratorTag)
+        if (collision.gameObject.tag == GeneratorTag)
         {
             generator.GenerateStage();
         }
+    }
+
+    private void OnStar()
+    {
+        isStar = true;
+        StartStarTime = uIManager.Timer;
     }
 
 }
