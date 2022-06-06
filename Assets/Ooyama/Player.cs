@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     float subjump = 0f;
     bool isStar = false;
     bool isStart;
+    AudioSource j_audio = default;
     //bool cJump;
     //Animator an = default;
 
@@ -41,6 +42,7 @@ public class Player : MonoBehaviour
         //an=GetComponent<Animator>();
         subjump = jumpPower;
         isStart = true;
+        j_audio = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
@@ -58,6 +60,7 @@ public class Player : MonoBehaviour
         {
             if (Input.GetButtonDown("Fire1") && !isfirstjump)
             {
+                j_audio.Play();
                 rb.velocity = new Vector3(0, jumpPower, 0);
                 jcount += 1;
                 isfirstjump = true;
