@@ -50,6 +50,7 @@ public static class GameManager
         Score = 0;
         OnGameOver?.RemoveAllListeners();
         OnStart?.Invoke();
+        _canGameStart = false;
     }
 
     /// <summary>

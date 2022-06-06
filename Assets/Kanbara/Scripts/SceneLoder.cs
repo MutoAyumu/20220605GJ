@@ -21,8 +21,8 @@ public class SceneLoder : MonoBehaviour
         var sequence = DOTween.Sequence();
         sequence.Append(_rect.DOScale(new Vector3(3f, 3f, 0f), 1f).SetEase(Ease.Linear));
         sequence.AppendInterval(0.5f);
-        sequence.Append(_rect.DOScale(new Vector3(10f ,10f ,0f) , 1f).SetEase(Ease.Linear));
-        GameManager.CanGameStart();
+        sequence.Append(_rect.DOScale(new Vector3(10f ,10f ,0f) , 1f).SetEase(Ease.Linear))
+            .OnComplete(() => GameManager.CanGameStart());
     }
 
     /// <summary>
