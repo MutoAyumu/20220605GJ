@@ -4,40 +4,61 @@ using UnityEngine;
 
 public class odds : MonoBehaviour
 {
-    [SerializeField] float m_jumpPower = 15000f;
-    [SerializeField] float speed; //速度
-    [SerializeField] float gravity; //重力　
-    [SerializeField] float timelimit = 0;
+    [SerializeField] float e_jumpPower = 100f;
+    /*[SerializeField] float speed; 
+    [SerializeField] float gravity; */
+    //[SerializeField] GameObject e_prefab = default;
+    [SerializeField] float e_interval = 1f;
+    [SerializeField] bool e_jumpStart = true;
+    float e_timer;
 
-    public bool GroundCheck ; //接地判定
+    //public bool GroundCheck ; 
     int r;
     int jumpcount = 0;
-    Rigidbody2D m_rb = default;
-    SpriteRenderer m_sprite = default;
-    float time;
-   
+    
+    Rigidbody2D e_rb = default;
+    SpriteRenderer e_sprite = default;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
-        m_rb = GetComponent<Rigidbody2D>();
-        m_sprite = GetComponent<SpriteRenderer>();
+        e_rb = GetComponent<Rigidbody2D>();
+        e_sprite = GetComponent<SpriteRenderer>();
+
+        if (e_jumpStart)
+        {
+            e_timer = e_interval;
+        }
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        r = Random.Range(1, 100);
+        e_timer += Time.deltaTime;
 
-        if (r >= 81 && jumpcount <= 2)
+        
+        if (e_timer > e_interval)
         {
-            this.m_rb.AddForce(transform.up * m_jumpPower * 5);
-            jumpcount++;
+            e_timer = 0;
+            r = Random.Range(1, 100);
+
+            if (r >= 81 && jumpcount <= 2)
+            {
+                this.e_rb.AddForce(transform.up * e_jumpPower * 5);
+                jumpcount++;
+            }
+            //Instantiate(e_prefab, this.transform.position, Quaternion.identity);
         }
 
 
-        
-        
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground"))
+        {
+            jumpcount = 0;
+        }
     }
 }
