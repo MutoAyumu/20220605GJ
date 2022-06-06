@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] float jumpTimelimit = 3f;
     [SerializeField] string StarTag = "Star";
     [SerializeField] float StarTime = 1f;
+    [SerializeField] string CoinTag = "Coin";
     float StartStarTime;
     float timer = 0f;
     bool isfirstjump = false;
@@ -58,14 +59,14 @@ public class Player : MonoBehaviour
         }
         if (jcount < jlimit)
         {
-            if (Input.GetButtonDown("Fire1") && !isfirstjump)
+            if (Input.GetButtonDown("Fire1") /*&& !isfirstjump*/)
             {
                 j_audio.Play();
                 rb.velocity = new Vector3(0, jumpPower, 0);
                 jcount += 1;
                 isfirstjump = true;
             }
-            if (Input.GetButton("Fire1") && timer < jumpTimelimit)
+            if (Input.GetButton("Fire1") && timer < jumpTimelimit && jcount!=0)
             {
                 timer += Time.deltaTime;
                 rb.velocity = new Vector3(dashPower, jumpPower - timer, 0);
@@ -73,7 +74,7 @@ public class Player : MonoBehaviour
             if (Input.GetButtonUp("Fire1"))
             {
                 timer = 0f;
-                isfirstjump = false;
+                //sfirstjump = false;
                 jumpPower = subjump;
             }
         }
@@ -84,7 +85,6 @@ public class Player : MonoBehaviour
                 isStar = false;
             }
         }
-        //}
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
@@ -126,6 +126,11 @@ public class Player : MonoBehaviour
         {
             OnStar();
         }
+        if(collision.gameObject.tag== CoinTag)
+        {
+            GameManager.AddScore(20);
+        }
+
     }
 
     private void OnStar()
