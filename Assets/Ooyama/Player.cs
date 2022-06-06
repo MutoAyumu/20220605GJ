@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +22,9 @@ public class Player : MonoBehaviour
     [SerializeField] float StarTime = 1f;
     [SerializeField] string CoinTag = "Coin";
     [SerializeField] ParticleSystem _system;
+    [SerializeField] AudioSource c_audio;
+    [SerializeField] AudioSource s_audio;
+    [SerializeField] CinemachineImpulseSource source;
     float StartStarTime;
     float timer = 0f;
     bool isfirstjump = false;
@@ -45,6 +49,8 @@ public class Player : MonoBehaviour
         subjump = jumpPower;
         isStart = true;
         j_audio = GetComponent<AudioSource>();
+        c_audio = GetComponent<AudioSource>();
+        s_audio = GetComponent<AudioSource>();
     }
     // Update is called once per frame
     void Update()
@@ -112,6 +118,7 @@ public class Player : MonoBehaviour
                 Destroy(this.gameObject);
                 var p = Instantiate(_system, this.transform.position, Quaternion.identity);
                 p.transform.Rotate(new Vector3(90, 0,0));
+                source.GenerateImpulse();
             }
         }
         
@@ -128,11 +135,13 @@ public class Player : MonoBehaviour
         }
         if(collision.gameObject.tag == StarTag)
         {
+            s_audio.Play();
             OnStar();
         }
         if(collision.gameObject.tag== CoinTag)
         {
             GameManager.AddScore(20);
+            c_audio.Play();
         }
 
     }
