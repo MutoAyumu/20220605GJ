@@ -95,7 +95,12 @@ public class Player : MonoBehaviour
         {
             if (isStar)
             {
-
+                var e = collision.gameObject.GetComponent<EnemyDestroy>();  
+                
+                if(e)
+                {
+                    e.Destroy();
+                }
             }
             else
             {
@@ -113,6 +118,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.tag == GeneratorTag)
         {
             generator.GenerateStage();
+        }
+        if(collision.gameObject.tag == StarTag)
+        {
+            OnStar();
         }
     }
 
