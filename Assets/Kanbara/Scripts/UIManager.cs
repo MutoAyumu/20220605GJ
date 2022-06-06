@@ -25,8 +25,11 @@ public class UIManager : MonoBehaviour
     [Header("スコアを表示するテキスト")]
     private Text _scoreText;
 
+    [SerializeField] Image _startImage;
+
     private float _time = 0f;
     private bool _isStopCount = false;
+    int _scoreTime;
 
     private void Awake()
     {
@@ -45,12 +48,14 @@ public class UIManager : MonoBehaviour
         if(Input.GetMouseButton(0))
         {
             GameManager.GameStart();
+
         }
     }
 
     private void GameStart()
     {
         _isStopCount = true;
+        _startImage.gameObject.SetActive(false);
         GameManager.OnGameOver.AddListener(GameOver);
     }
 
@@ -61,6 +66,12 @@ public class UIManager : MonoBehaviour
     {
         int time = (int)_time;
         _timeText.text = time.ToString();
+
+        if (_scoreTime != time)
+        {
+            _scoreTime = time;
+            GameManager.AddScore(1);
+        }
     }
 
     /// <summary>

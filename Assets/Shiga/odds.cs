@@ -22,7 +22,7 @@ public class odds : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.OnStart.AddListener(OnStart);
+        OnStart();
     }
 
     private void OnStart()
