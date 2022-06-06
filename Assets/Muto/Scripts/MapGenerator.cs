@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -15,12 +16,18 @@ public class MapGenerator : MonoBehaviour
     int _count = 2;
     int _destroyCount;
 
-    private void Start()
+    private void Awake()
+    {
+        GameManager.OnStart.AddListener(OnStart);
+    }
+
+    private void OnStart()
     {
         _mapsList.Add(Instantiate(_maps[0], _grid.transform));
-        _mapsList.Add(Instantiate(_maps[Random.Range(1,_maps.Length)], new Vector2(_width, 0), Quaternion.identity, _grid.transform));
-        _mapsList.Add(Instantiate(_maps[Random.Range(1,_maps.Length)], new Vector2(_width * _count , 0),Quaternion.identity, _grid.transform));
+        _mapsList.Add(Instantiate(_maps[Random.Range(1, _maps.Length)], new Vector2(_width, 0), Quaternion.identity, _grid.transform));
+        _mapsList.Add(Instantiate(_maps[Random.Range(1, _maps.Length)], new Vector2(_width * _count, 0), Quaternion.identity, _grid.transform));
     }
+
     public void GenerateStage()
     {
         _destroyCount++;
