@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     [SerializeField] string StarTag = "Star";
     [SerializeField] float StarTime = 1f;
     [SerializeField] string CoinTag = "Coin";
+    [SerializeField] ParticleSystem _system;
     float StartStarTime;
     float timer = 0f;
     bool isfirstjump = false;
@@ -108,6 +109,9 @@ public class Player : MonoBehaviour
             else
             {
                 GameManager.GameOver();
+                Destroy(this.gameObject);
+                var p = Instantiate(_system, this.transform.position, Quaternion.identity);
+                p.transform.Rotate(new Vector3(90, 0,0));
             }
         }
         
