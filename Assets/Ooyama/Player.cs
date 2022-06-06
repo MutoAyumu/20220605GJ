@@ -31,7 +31,7 @@ public class Player : MonoBehaviour
     float subjump = 0f;
     bool isStar = false;
     bool isStart;
-    AudioSource j_audio = default;
+    [SerializeField]AudioSource j_audio = default;
     //bool cJump;
     //Animator an = default;
 
