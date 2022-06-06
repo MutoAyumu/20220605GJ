@@ -29,13 +29,17 @@ public class Player : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        GameManager.OnStart.AddListener(OnStart);
+    }
+
+    void OnStart()
     {
         rb = GetComponent<Rigidbody2D>();
         //an=GetComponent<Animator>();
         subjump = jumpPower;
     }
-
     // Update is called once per frame
     void Update()
     {
