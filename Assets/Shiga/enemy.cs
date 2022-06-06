@@ -72,6 +72,10 @@ public class enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_points.Length == 0)
+        {
+            return;
+        }
         float distance = Vector3.Distance(this.transform.position, _points[_count].position);
 
         if (distance > _stopDistance)
@@ -79,6 +83,7 @@ public class enemy : MonoBehaviour
             _move = (_points[_count].transform.position - this.transform.position);
             this.transform.Translate(_move.normalized * _moveSpeed * Time.deltaTime);
         }
+
         else
         {
             _count = (_count + 1) % _points.Length;
