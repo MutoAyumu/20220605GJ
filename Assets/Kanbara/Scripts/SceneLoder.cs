@@ -22,7 +22,11 @@ public class SceneLoder : MonoBehaviour
         sequence.Append(_rect.DOScale(new Vector3(3f, 3f, 0f), 1f).SetEase(Ease.Linear));
         sequence.AppendInterval(0.5f);
         sequence.Append(_rect.DOScale(new Vector3(10f ,10f ,0f) , 1f).SetEase(Ease.Linear))
-            .OnComplete(() => GameManager.CanGameStart());
+            .OnComplete(() =>
+            {
+                GameManager.CanGameStart();
+                _unmaskImage.raycastTarget = false;
+                });
     }
 
     /// <summary>
@@ -32,6 +36,7 @@ public class SceneLoder : MonoBehaviour
     /// <param name="name"></param>
     public void LoadScene(string name)
     {
+        _unmaskImage.raycastTarget = false;
         _rect.DORotate(new Vector3(0f, 0f, 360f), 1f, RotateMode.FastBeyond360).SetEase(Ease.InQuad);
 
         var sequence = DOTween.Sequence();
