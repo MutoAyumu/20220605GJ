@@ -25,13 +25,14 @@ public class Player : MonoBehaviour
     [SerializeField] AudioSource c_audio;
     [SerializeField] AudioSource s_audio;
     [SerializeField] CinemachineImpulseSource source;
+    [SerializeField] GameObject StarEffect;
     float StartStarTime;
     float timer = 0f;
     bool isfirstjump = false;
     float subjump = 0f;
     bool isStar = false;
     bool isStart;
-    AudioSource j_audio = default;
+    [SerializeField]AudioSource j_audio = default;
     //bool cJump;
     //Animator an = default;
 
@@ -90,6 +91,7 @@ public class Player : MonoBehaviour
             if (StartStarTime + StarTime < uIManager.Timer)
             {
                 isStar = false;
+                StarEffect.SetActive(false);
             }
         }
     }
@@ -137,11 +139,13 @@ public class Player : MonoBehaviour
         {
             s_audio.Play();
             OnStar();
+            Destroy(collision.gameObject);
         }
         if(collision.gameObject.tag== CoinTag)
         {
             GameManager.AddScore(20);
             c_audio.Play();
+            Destroy(collision.gameObject);
         }
 
     }
@@ -150,6 +154,7 @@ public class Player : MonoBehaviour
     {
         isStar = true;
         StartStarTime = uIManager.Timer;
+        StarEffect.SetActive(true);
     }
 
 }
