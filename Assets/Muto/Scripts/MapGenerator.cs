@@ -16,9 +16,9 @@ public class MapGenerator : MonoBehaviour
     int _count = 2;
     int _destroyCount;
 
-    private void Awake()
+    private void Start()
     {
-        GameManager.OnStart.AddListener(OnStart);
+        OnStart();
     }
 
     private void OnStart()
