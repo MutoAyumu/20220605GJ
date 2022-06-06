@@ -24,21 +24,30 @@ public class Player : MonoBehaviour
     bool isfirstjump = false;
     float subjump = 0f;
     bool isStar = false;
+    bool isStart;
     //bool cJump;
     //Animator an = default;
 
 
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        GameManager.OnStart.AddListener(OnStart);
+    }
+
+    void OnStart()
     {
         rb = GetComponent<Rigidbody2D>();
         //an=GetComponent<Animator>();
         subjump = jumpPower;
+        isStart = true;
     }
-
     // Update is called once per frame
     void Update()
     {
+        if (!isStart)
+            return;
+
         rb.velocity = new Vector3(dashPower, rb.velocity.y, 0);
         if (uIManager.Timer > SpeedupTime)
         {
